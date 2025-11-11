@@ -10,16 +10,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
-                .csrf(csrf -> csrf.disable()) // disable CSRF (SockJS/STOMP handshakes use XHR)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // allow the WebSocket handshake + STOMP destinations
-                        .requestMatchers("/ws/**", "/topic/**", "/app/**").permitAll()
-                        // allow your MVC view endpoint for the page
-                        .requestMatchers("/chat", "/**/*.css", "/**/*.js").permitAll()
+                        .requestMatchers("/ws/**", "/chat", "/app/**", "/topic/**").permitAll()
                         .anyRequest().permitAll()
                 );
 
         return http.build();
     }
 }
+
